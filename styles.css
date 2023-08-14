@@ -58,6 +58,12 @@ header h1{
     position: absolute;
 }
 
+.resize-handle:hover
+{
+    cursor: pointer;
+    background-color: orange;
+}
+
 .grid-size-text
 {
     width: 120px;
@@ -98,4 +104,16 @@ button
     background-color:rgb(44, 41, 92);
     color: orange;
     padding: 8px;
+}
+
+button:hover
+{
+    color:rgb(44, 41, 92);
+    background-color: orange;
+    cursor: pointer;
+}
+
+.grid-border
+{
+    border: 1px solid gray;
 }

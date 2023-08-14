@@ -1,5 +1,5 @@
 const container = document.querySelector(".container");
-const update = document.querySelector(".popUp");
+const update = document.querySelector(".update");
 
 //resize grid
 const resizeContainer = document.querySelector(".resize-container");
@@ -17,7 +17,9 @@ let currentSize = startSize;
 let cells = [];
 let clicking = false;
 
-//pens
+//extra options
+const toggleGrid = document.querySelector(".toggle-grid");
+toggleGrid.addEventListener("click", ToggleGrid);
 const penBtns = document.querySelectorAll(".pen");
 const pens = 
 [
@@ -54,9 +56,10 @@ for(let i = 0; i < penBtns.length; i++)
 {
     penBtns[i].addEventListener("click", () => {
         currentPen = pens[parseInt(penBtns[i].dataset.value)];
-        console.log(parseInt(penBtns[i].dataset.value));
     })
 }
+
+
 
 //prevents unexpected dragging from happening
 document.addEventListener("dragstart", (event) => {
@@ -106,7 +109,8 @@ function GenerateGrid(pSize)
     {
         let newDiv = document.createElement("div"); 
         
-        newDiv.style.cssText = "width: " + newCellSize + "%; height: " + newCellSize + "%; border: 1px solid gray;";
+        newDiv.style.cssText = "width: " + newCellSize + "%; height: " + newCellSize + "%;";
+        newDiv.classList.add("grid-border");
         newDiv.addEventListener("mouseover", () => {
             if(!clicking) return; 
             currentPen.paint(newDiv);
@@ -156,4 +160,12 @@ function UpdateGridSizeUI()
 function PaintCell(cell, color)
 {
     cell.style.backgroundColor = color;
+}
+
+function ToggleGrid()
+{
+    for(cell of cells)
+    {
+        cell.classList.toggle("grid-border");
+    }
 }
