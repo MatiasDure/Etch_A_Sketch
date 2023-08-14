@@ -7,21 +7,36 @@
 
 body
 {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'VT323', monospace;
+}
+
+header
+{
+    background-color:rgb(44, 41, 92);
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+header h1{
+    color: orange;
+    font-size: 10vw;
 }
 
 .container
 {
-    border: 1px solid red;
+    border: 1px solid gray;
     display: flex;
     flex-wrap: wrap;
     width: 400px;
     height: 300px;
+    margin: 80px auto 0 auto;
 }
 
 .resize{
     display: flex;
-    margin: 20px auto;
+    margin: 50px auto;
     justify-content: center;
 }
 
@@ -49,7 +64,38 @@ body
     text-align: center;
 }
 
-.colored
+.options-container
 {
-    background-color: blue;
+    display: flex;
+    justify-content: space-evenly;
+    width: 400px;
+    margin: 20px auto;
+}
+
+footer
+{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 2.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color:rgb(44, 41, 92);
+}
+
+footer h4
+{
+    color: orange;
+    font-size: 20px;
+}
+
+button
+{
+    font-size: 15px;
+    border:none;
+    border-radius: 5px;
+    background-color:rgb(44, 41, 92);
+    color: orange;
+    padding: 8px;
 }

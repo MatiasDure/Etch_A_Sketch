@@ -1,5 +1,5 @@
 const container = document.querySelector(".container");
-const popUp = document.querySelector(".popUp");
+const update = document.querySelector(".popUp");
 
 //resize grid
 const resizeContainer = document.querySelector(".resize-container");
@@ -11,11 +11,52 @@ const resizeHandleStartPosX = resizeHandleBounds.x;
 const resizeHandleHalfWidth = resizeHandleBounds.width / 2;
 const resizeHandleEndPosX = resizeHandleStartPosX + resizeContainerBounds.width - resizeHandleBounds.width - resizeContainerBorder;
 const gridSizeText = document.querySelector(".grid-size-text");
-const startSize = 16;
+const startSize = 2;
 let currentSize = startSize;
 
 let cells = [];
 let clicking = false;
+
+//pens
+const penBtns = document.querySelectorAll(".pen");
+const pens = 
+[
+    {
+        mode: "black",
+        paint: (cell) => 
+        {
+            PaintCell(cell,"black");
+        }
+    },
+    {
+        mode: "clear",
+        paint: (cell) => 
+        {
+            PaintCell(cell,"white");
+        }
+    },
+    {
+        mode:"rainbow",
+        paint: (cell) =>
+        {
+            let r = Math.floor(Math.random() * 255);
+            let g = Math.floor(Math.random() * 255);
+            let b = Math.floor(Math.random() * 255);
+
+            PaintCell(cell,`rgb(${r},${g},${b})`);
+        }
+    }
+]
+
+let currentPen = pens[0];
+
+for(let i = 0; i < penBtns.length; i++)
+{
+    penBtns[i].addEventListener("click", () => {
+        currentPen = pens[parseInt(penBtns[i].dataset.value)];
+        console.log(parseInt(penBtns[i].dataset.value));
+    })
+}
 
 //prevents unexpected dragging from happening
 document.addEventListener("dragstart", (event) => {
@@ -35,17 +76,14 @@ resizeContainer.addEventListener("mousemove", (event) =>{
 resizeContainer.addEventListener("click", RepositionHandle)
 
 //Asks users for size to create new grid
-popUp.addEventListener("click", RegenerateGrid);
+update.addEventListener("click", RegenerateGrid);
 
 //Initial grid
 GenerateGrid(startSize);
+UpdateGridSizeUI();
 
 function RegenerateGrid()
 {
-    // let size = prompt("Grid size?");
-
-    // size = size > 64 ? 64 : size <= 0 ? 1 : size;
-
     ClearGrid();
     GenerateGrid(currentSize);
 }
@@ -71,9 +109,12 @@ function GenerateGrid(pSize)
         newDiv.style.cssText = "width: " + newCellSize + "%; height: " + newCellSize + "%; border: 1px solid gray;";
         newDiv.addEventListener("mouseover", () => {
             if(!clicking) return; 
-            newDiv.classList.add("colored")
+            currentPen.paint(newDiv);
         });
-        newDiv.addEventListener("mousedown", () => newDiv.classList.add("colored"));
+        newDiv.addEventListener("mousedown", () => { 
+            currentPen.paint(newDiv);
+        });
+
         cells.push(newDiv);
         container.append(newDiv);
     }
@@ -110,4 +151,9 @@ function CalculateGridSize(pHandlePos)
 function UpdateGridSizeUI()
 {
     gridSizeText.textContent = `${currentSize} X ${currentSize}`;
+}
+
+function PaintCell(cell, color)
+{
+    cell.style.backgroundColor = color;
 }
